@@ -3,7 +3,8 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**"],
+      "cache": true
     },
     "dev": {
       "cache": false,
@@ -13,6 +14,10 @@
     "test": {
       "dependsOn": ["build"],
       "outputs": []
+    },
+    "package": {
+      "dependsOn": ["build"],
+      "outputs": ["pack/**", "dist-electron/**"]
     }
   }
 }

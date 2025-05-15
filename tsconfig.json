@@ -6,6 +6,15 @@
     "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@user-feedback-mcp/shared": ["packages/shared/src"],
+      "@user-feedback-mcp/shared/*": ["packages/shared/src/*"],
+      "@user-feedback-mcp/mcp-server": ["packages/mcp-server/src"],
+      "@user-feedback-mcp/mcp-server/*": ["packages/mcp-server/src/*"],
+      "@user-feedback-mcp/electron-gui": ["packages/electron-gui/src"],
+      "@user-feedback-mcp/electron-gui/*": ["packages/electron-gui/src/*"]
+    }
   }
 }

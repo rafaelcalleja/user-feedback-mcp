@@ -10,7 +10,9 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "package": "yarn build && cd apps/cli && yarn package",
+    "publish": "yarn package && cd apps/cli/pack && npm publish"
   },
   "devDependencies": {
     "turbo": "^1.10.0"

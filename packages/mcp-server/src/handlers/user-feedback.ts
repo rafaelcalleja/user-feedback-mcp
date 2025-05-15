@@ -108,7 +108,16 @@ export function getElectronGuiPath(): string {
     }
 
     // In production, use the installed path
-    return require.resolve("@user-feedback-mcp/electron-gui");
+    // First try to resolve the main.js file directly
+    try {
+      return require.resolve("@user-feedback-mcp/electron-gui/main.js");
+    } catch (e) {
+      // If that fails, try to resolve the package and get the main.js path
+      const electronGuiPath = require.resolve(
+        "@user-feedback-mcp/electron-gui"
+      );
+      return path.join(path.dirname(electronGuiPath), "main.js");
+    }
   } catch (error: any) {
     logger.error("Failed to resolve Electron GUI path", {
       error: error.message || String(error),

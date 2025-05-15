@@ -6,13 +6,10 @@
   "license": "MIT",
   "main": "dist/main.js",
   "scripts": {
-    "build": "tsc && electron-builder",
     "dev": "tsc --watch",
     "start": "electron .",
     "lint": "eslint src --ext .ts,.js",
-    "test": "jest",
-    "package": "electron-builder build --dir",
-    "dist": "electron-builder build"
+    "test": "jest"
   },
   "dependencies": {
     "@user-feedback-mcp/shared": "*",
