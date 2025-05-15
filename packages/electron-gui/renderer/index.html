@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Feedback</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div id="prompt-container" class="prompt-container">
+      <!-- Prompt will be inserted here -->
+    </div>
+    
+    <form id="feedback-form" class="feedback-form">
+      <textarea 
+        id="feedback-input" 
+        class="feedback-input" 
+        placeholder="Type your feedback here..." 
+        required
+      ></textarea>
+      
+      <div class="button-container">
+        <button type="submit" class="submit-button">Submit</button>
+      </div>
+    </form>
+    
+    <div id="status-message" class="status-message"></div>
+  </div>
+  
+  <script src="app.js"></script>
+</body>
+</html>

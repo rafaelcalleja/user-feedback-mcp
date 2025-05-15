@@ -1,0 +1,29 @@
+{
+  "name": "@user-feedback-mcp/mcp-server",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src --ext .ts,.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.11.2",
+    "@user-feedback-mcp/shared": "*",
+    "fs-extra": "^11.1.1",
+    "winston": "^3.17.0",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^18.16.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.3.3",
+    "typescript": "^5.0.4"
+  }
+}

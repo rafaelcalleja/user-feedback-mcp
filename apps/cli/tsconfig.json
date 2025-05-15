@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*", "package.json"],
+  "references": [
+    { "path": "../../packages/shared" },
+    { "path": "../../packages/mcp-server" },
+    { "path": "../../packages/electron-gui" }
+  ]
+}
