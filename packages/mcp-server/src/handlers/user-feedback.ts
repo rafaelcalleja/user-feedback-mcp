@@ -18,6 +18,7 @@ import {
   ensureTempDir,
 } from "@user-feedback-mcp/shared";
 import logger from "../utils/logger";
+import { existsSync } from "fs";
 
 /**
  * Handler for the get_user_feedback tool
@@ -97,27 +98,27 @@ export async function getUserFeedback(
   }
 }
 
-/**
- * Gets the path to the Electron GUI executable
- */
 export function getElectronGuiPath(): string {
   try {
-    // In development, use the local path
-    if (process.env.NODE_ENV === "development") {
-      return path.resolve(__dirname, "../../../electron-gui/dist/main.js");
+    // In bundled mode, the electron-gui main file should be at a relative path
+    // from the current file's directory
+    const bundledPath = path.join(__dirname, "electron", "main.js");
+
+    if (existsSync(bundledPath)) {
+      logger.debug(`Using bundled Electron GUI path: ${bundledPath}`);
+      return bundledPath;
     }
 
-    // In production, use the installed path
-    // First try to resolve the main.js file directly
-    try {
-      return require.resolve("@user-feedback-mcp/electron-gui/main.js");
-    } catch (e) {
-      // If that fails, try to resolve the package and get the main.js path
-      const electronGuiPath = require.resolve(
-        "@user-feedback-mcp/electron-gui"
-      );
-      return path.join(path.dirname(electronGuiPath), "main.js");
+    // If we can't find the bundled path, try to resolve it using require.resolve
+    // but store the result to avoid multiple resolutions
+    const resolvedPath = require.resolve("./electron/main.js");
+
+    if (existsSync(resolvedPath)) {
+      logger.debug(`Using resolved Electron GUI path: ${resolvedPath}`);
+      return resolvedPath;
     }
+
+    throw new Error("Could not find Electron GUI path");
   } catch (error: any) {
     logger.error("Failed to resolve Electron GUI path", {
       error: error.message || String(error),

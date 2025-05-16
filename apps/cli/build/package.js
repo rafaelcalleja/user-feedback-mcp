@@ -1,4 +1,4 @@
-const { writeFileSync, readFileSync, copyFileSync, existsSync, mkdirSync, rmSync } = require('fs');
+const { writeFileSync, readFileSync, copyFileSync, existsSync, mkdirSync, rmSync, cpSync, readdirSync } = require('fs');
 const { join } = require('path');
 
 // Clean up previous packaging artifacts
@@ -23,20 +23,13 @@ const publishPackageJson = {
   bin: {
     "user-feedback-mcp": "./cli.js"
   },
-  main: 'mcp.js',
+  main: './cli.js',
   files: [
     'cli.js',
-    'mcp.js',
-    'electron/**/*',
-    'main.js'
+    'electron/**/*'
   ],
   dependencies: {
-    // Only include runtime dependencies, not dev dependencies
-    "@modelcontextprotocol/sdk": packageJson.dependencies["@modelcontextprotocol/sdk"],
-    "commander": packageJson.dependencies["commander"],
-    "fs-extra": packageJson.dependencies["fs-extra"],
-    "winston": packageJson.dependencies["winston"],
-    "zod": packageJson.dependencies["zod"]
+    "electron": packageJson.devDependencies["electron"],
   },
   keywords: [
     'mcp',
@@ -63,12 +56,7 @@ copyFileSync(
   join(packDir, 'cli.js')
 );
 
-copyFileSync(
-  join(__dirname, '../dist/mcp.js'),
-  join(packDir, 'mcp.js')
-);
-
-// Copy the electron directory
+// Copy the electron directory recursively
 if (existsSync(join(__dirname, '../dist/electron'))) {
   console.log('Copying Electron files...');
   // Create electron directory if it doesn't exist
@@ -76,40 +64,19 @@ if (existsSync(join(__dirname, '../dist/electron'))) {
     mkdirSync(join(packDir, 'electron'), { recursive: true });
   }
 
-  // Copy files directly without creating nested directories
-  const electronFiles = ['index.js', 'index.js.map', 'main.js', 'main.js.map'];
-  electronFiles.forEach(file => {
-    if (existsSync(join(__dirname, '../dist/electron', file))) {
-      copyFileSync(
-        join(__dirname, '../dist/electron', file),
-        join(packDir, 'electron', file)
-      );
-    }
-  });
-
-  // Copy main.js to the root directory for easier resolution
-  if (existsSync(join(__dirname, '../dist/electron/main.js'))) {
-    copyFileSync(
-      join(__dirname, '../dist/electron/main.js'),
-      join(packDir, 'main.js')
-    );
-  }
-}
-
-// No type declarations needed for CLI tool
-
-// Copy README and LICENSE if they exist
-if (existsSync(join(__dirname, '../../..', 'README.md'))) {
-  copyFileSync(
-    join(__dirname, '../../..', 'README.md'),
-    join(packDir, 'README.md')
+  // Use recursive copy for the entire electron directory
+  cpSync(
+    join(__dirname, '../dist/electron'),
+    join(packDir, 'electron'),
+    { recursive: true }
   );
 }
 
-if (existsSync(join(__dirname, '../../..', 'LICENSE'))) {
+// Copy README and LICENSE if they exist
+if (existsSync(join(__dirname, '..', 'README.md'))) {
   copyFileSync(
-    join(__dirname, '../../..', 'LICENSE'),
-    join(packDir, 'LICENSE')
+    join(__dirname, '..', 'README.md'),
+    join(packDir, 'README.md')
   );
 }
 

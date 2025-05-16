@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import * as path from "path";
 import * as url from "url";
+import { existsSync } from "fs";
 import {
   ENV_PROMPT,
   ENV_TITLE,
@@ -16,10 +17,12 @@ import {
 let mainWindow: BrowserWindow | null = null;
 
 // Get parameters from environment variables
-const prompt = process.env[ENV_PROMPT] || "";
+const prompt = process.env[ENV_PROMPT] || "Test";
 const title = process.env[ENV_TITLE] || DEFAULT_WINDOW_TITLE;
 const timeout = parseInt(process.env[ENV_TIMEOUT] || "0", 10);
-const feedbackFilePath = process.env[ENV_FEEDBACK_FILE] || "";
+const feedbackFilePath =
+  process.env[ENV_FEEDBACK_FILE] ||
+  "/Users/jan/projects/private/user-feedback-mcp/apps/cli/pack/feedback.json";
 
 // Validate required parameters
 if (!prompt) {
@@ -49,7 +52,28 @@ function createWindow() {
   });
 
   // Load the index.html file
-  const indexPath = path.join(__dirname, "../renderer/index.html");
+  // Try multiple possible paths for the HTML file
+  let indexPath;
+
+  // First try the bundled path (in electron directory)
+  const bundledPath = path.join(__dirname, "renderer/index.html");
+  if (existsSync(bundledPath)) {
+    indexPath = bundledPath;
+  }
+  // Then try the development path
+  else {
+    const devPath = path.join(__dirname, "../renderer/index.html");
+    if (existsSync(devPath)) {
+      indexPath = devPath;
+    } else {
+      // Fallback to the old path structure
+      indexPath = path.join(__dirname, "../renderer/index.html");
+    }
+  }
+
+  // Log the path being used
+  console.log(`Loading HTML from: ${indexPath}`);
+
   mainWindow.loadURL(
     url.format({
       pathname: indexPath,

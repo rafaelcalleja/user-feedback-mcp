@@ -1,7 +1,7 @@
 {
   "name": "user-feedback-mcp",
-  "version": "0.1.0",
-  "description": "Local User Feedback Interface for MCP Tool",
+  "version": "0.1.2",
+  "description": "mcp server to request user feedback via an UI instead of normal chat",
   "bin": {
     "user-feedback-mcp": "./dist/cli.js"
   },
