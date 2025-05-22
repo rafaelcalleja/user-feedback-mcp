@@ -4,10 +4,8 @@ import * as url from "url";
 import { existsSync } from "fs";
 import {
   ENV_PROMPT,
-  ENV_TITLE,
-  ENV_TIMEOUT,
   ENV_FEEDBACK_FILE,
-  DEFAULT_WINDOW_TITLE,
+  WINDOW_TITLE,
   DEFAULT_WINDOW_WIDTH,
   DEFAULT_WINDOW_HEIGHT,
   writeFeedbackToFile,
@@ -18,8 +16,7 @@ let mainWindow: BrowserWindow | null = null;
 
 // Get parameters from environment variables
 const prompt = process.env[ENV_PROMPT] || "Test";
-const title = process.env[ENV_TITLE] || DEFAULT_WINDOW_TITLE;
-const timeout = parseInt(process.env[ENV_TIMEOUT] || "0", 10);
+// Title is now fixed to "User Feedback"
 const feedbackFilePath =
   process.env[ENV_FEEDBACK_FILE] ||
   "/Users/jan/projects/private/user-feedback-mcp/apps/cli/pack/feedback.json";
@@ -43,7 +40,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: DEFAULT_WINDOW_WIDTH,
     height: DEFAULT_WINDOW_HEIGHT,
-    title,
+    title: WINDOW_TITLE,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -82,14 +79,8 @@ function createWindow() {
     })
   );
 
-  // Set up timeout if specified
-  if (timeout > 0) {
-    setTimeout(() => {
-      if (mainWindow) {
-        mainWindow.close();
-      }
-    }, timeout);
-  }
+  // Timeout for auto-closing has been removed to allow the window to stay open indefinitely
+  // The window will only close when the user submits feedback or manually closes the window
 
   // Handle window close
   mainWindow.on("closed", () => {

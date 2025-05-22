@@ -4,17 +4,13 @@ import {
   UserFeedbackRequest,
   UserFeedbackResponse,
   FeedbackStatus,
-  DEFAULT_TIMEOUT,
-  DEFAULT_WINDOW_TITLE,
+  WINDOW_TITLE,
   ENV_PROMPT,
-  ENV_TITLE,
-  ENV_TIMEOUT,
   ENV_FEEDBACK_FILE,
   generateFeedbackFilePath,
   readFeedbackFromFile,
   cleanupFeedbackFile,
   createErrorResponse,
-  createTimeoutResponse,
   ensureTempDir,
 } from "@user-feedback-mcp/shared";
 import logger from "../utils/logger";
@@ -46,28 +42,18 @@ export async function getUserFeedback(
     const env = {
       ...process.env,
       [ENV_PROMPT]: params.prompt,
-      [ENV_TITLE]: params.title || DEFAULT_WINDOW_TITLE,
-      [ENV_TIMEOUT]: String(params.timeout || DEFAULT_TIMEOUT),
       [ENV_FEEDBACK_FILE]: feedbackFilePath,
     };
 
     logger.debug("Launching Electron GUI", {
       electronGuiPath,
       feedbackFilePath,
-      timeout: params.timeout || DEFAULT_TIMEOUT,
     });
 
     // Launch the Electron GUI subprocess
-    const result = await launchElectronGui(
-      electronGuiPath,
-      env,
-      params.timeout || DEFAULT_TIMEOUT
-    );
+    const result = await launchElectronGui(electronGuiPath, env);
 
-    if (result.status === FeedbackStatus.TIMEOUT) {
-      logger.warn("User feedback request timed out");
-      return createTimeoutResponse();
-    }
+    // Timeout status has been removed
 
     if (result.status === FeedbackStatus.ERROR) {
       logger.error("Error in Electron GUI subprocess", { error: result.error });
@@ -134,17 +120,10 @@ export function getElectronGuiPath(): string {
  */
 async function launchElectronGui(
   electronGuiPath: string,
-  env: NodeJS.ProcessEnv,
-  timeout: number
+  env: NodeJS.ProcessEnv
 ): Promise<{ status: FeedbackStatus; error?: string }> {
   return new Promise((resolve) => {
-    // Set up timeout handler
-    const timeoutId = setTimeout(() => {
-      if (electronProcess && !electronProcess.killed) {
-        electronProcess.kill();
-      }
-      resolve({ status: FeedbackStatus.TIMEOUT });
-    }, timeout);
+    // No timeout handler - window stays open until user submits feedback or closes it
 
     // Try to find the local Electron executable
     let electronPath = "electron"; // Default to global electron
@@ -163,8 +142,6 @@ async function launchElectronGui(
 
     // Handle process exit
     electronProcess.on("exit", (code) => {
-      clearTimeout(timeoutId);
-
       if (code === 0) {
         resolve({ status: FeedbackStatus.SUCCESS });
       } else {
@@ -177,7 +154,6 @@ async function launchElectronGui(
 
     // Handle process error
     electronProcess.on("error", (error) => {
-      clearTimeout(timeoutId);
       resolve({
         status: FeedbackStatus.ERROR,
         error: `Failed to start Electron process: ${error.message}`,

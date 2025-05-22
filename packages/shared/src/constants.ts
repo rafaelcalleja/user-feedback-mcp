@@ -1,15 +1,10 @@
-import * as path from 'path';
-import * as os from 'os';
+import * as path from "path";
+import * as os from "os";
 
 /**
- * Default timeout for waiting for user feedback (in milliseconds)
+ * Window title for the feedback window
  */
-export const DEFAULT_TIMEOUT = 5 * 60 * 1000; // 5 minutes
-
-/**
- * Default window title
- */
-export const DEFAULT_WINDOW_TITLE = 'User Feedback';
+export const WINDOW_TITLE = "User Feedback";
 
 /**
  * Default window width
@@ -24,29 +19,31 @@ export const DEFAULT_WINDOW_HEIGHT = 400;
 /**
  * Base directory for temporary files
  */
-export const TEMP_DIR = path.join(os.tmpdir(), 'user-feedback-mcp');
+export const TEMP_DIR = path.join(os.tmpdir(), "user-feedback-mcp");
 
 /**
  * File name for the feedback file
  */
-export const FEEDBACK_FILE_NAME = 'feedback.json';
+export const FEEDBACK_FILE_NAME = "feedback.json";
 
 /**
  * Environment variable for the prompt
  */
-export const ENV_PROMPT = 'USER_FEEDBACK_PROMPT';
+export const ENV_PROMPT = "USER_FEEDBACK_PROMPT";
 
-/**
- * Environment variable for the window title
- */
-export const ENV_TITLE = 'USER_FEEDBACK_TITLE';
-
-/**
- * Environment variable for the timeout
- */
-export const ENV_TIMEOUT = 'USER_FEEDBACK_TIMEOUT';
+// No environment variables for title or timeout as they are now fixed
 
 /**
  * Environment variable for the feedback file path
  */
-export const ENV_FEEDBACK_FILE = 'USER_FEEDBACK_FILE';
+export const ENV_FEEDBACK_FILE = "USER_FEEDBACK_FILE";
+
+/**
+ * Environment variable to enable the universal knowledge database tool
+ */
+export const ENV_ENABLE_KNOWLEDGE_DB = "ENABLE_KNOWLEDGE_DB";
+
+/**
+ * Environment variable to enable the UI tester tool
+ */
+export const ENV_ENABLE_UI_TESTER = "ENABLE_UI_TESTER";

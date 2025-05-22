@@ -21,9 +21,10 @@ program
   .version(version)
   .option("-d, --debug", "Enable debug logging")
   .option(
-    "-t, --timeout <timeout>",
-    "Default timeout for feedback requests (in milliseconds)"
-  );
+    "--enable-knowledge-db",
+    "Enable the universal knowledge database tool"
+  )
+  .option("--enable-ui-tester", "Enable the UI tester tool");
 
 // Main action handler
 async function main() {
@@ -36,10 +37,17 @@ async function main() {
       safeConsole.log("Debug mode enabled");
     }
 
-    // Set timeout if specified
-    if (options.timeout) {
-      process.env.DEFAULT_TIMEOUT = options.timeout;
-      safeConsole.log(`Default timeout set to ${options.timeout}ms`);
+    // Timeout option has been removed
+
+    // Enable additional tools if specified
+    if (options.enableKnowledgeDb) {
+      process.env.ENABLE_KNOWLEDGE_DB = "true";
+      safeConsole.log("Universal knowledge database tool enabled");
+    }
+
+    if (options.enableUiTester) {
+      process.env.ENABLE_UI_TESTER = "true";
+      safeConsole.log("UI tester tool enabled");
     }
 
     // Start the MCP server

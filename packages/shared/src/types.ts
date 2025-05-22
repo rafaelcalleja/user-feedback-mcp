@@ -6,16 +6,6 @@ export interface UserFeedbackRequest {
    * The prompt to display to the user
    */
   prompt: string;
-  
-  /**
-   * Optional title for the feedback window
-   */
-  title?: string;
-  
-  /**
-   * Optional timeout in milliseconds
-   */
-  timeout?: number;
 }
 
 /**
@@ -26,12 +16,12 @@ export interface UserFeedbackResponse {
    * The feedback text provided by the user
    */
   feedback: string;
-  
+
   /**
    * Status of the feedback operation
    */
   status: FeedbackStatus;
-  
+
   /**
    * Error message if status is ERROR
    */
@@ -42,10 +32,10 @@ export interface UserFeedbackResponse {
  * Enum for feedback operation status
  */
 export enum FeedbackStatus {
-  SUCCESS = 'success',
-  ERROR = 'error',
-  TIMEOUT = 'timeout',
-  CANCELLED = 'cancelled'
+  SUCCESS = "success",
+  ERROR = "error",
+  TIMEOUT = "timeout",
+  CANCELLED = "cancelled",
 }
 
 /**
@@ -56,7 +46,7 @@ export interface FeedbackFile {
    * The feedback text provided by the user
    */
   feedback: string;
-  
+
   /**
    * Timestamp when the feedback was submitted
    */
