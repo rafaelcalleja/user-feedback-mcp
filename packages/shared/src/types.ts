@@ -1,4 +1,19 @@
 /**
+ * Interface for image data
+ */
+export interface ImageData {
+  /**
+   * Base64 encoded image data
+   */
+  data: string;
+
+  /**
+   * MIME type of the image (e.g., 'image/png', 'image/jpeg')
+   */
+  mimeType: string;
+}
+
+/**
  * Interface for the user feedback request
  */
 export interface UserFeedbackRequest {
@@ -26,6 +41,11 @@ export interface UserFeedbackResponse {
    * Error message if status is ERROR
    */
   error?: string;
+
+  /**
+   * Optional array of images included in the feedback
+   */
+  images?: ImageData[];
 }
 
 /**
@@ -56,4 +76,9 @@ export interface FeedbackFile {
    * Whether the feedback was cancelled by the user
    */
   cancelled?: boolean;
+
+  /**
+   * Optional array of images included in the feedback
+   */
+  images?: ImageData[];
 }

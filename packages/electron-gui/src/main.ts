@@ -14,6 +14,9 @@ import {
 // Keep a global reference of the window object
 let mainWindow: BrowserWindow | null = null;
 
+// Flag to track if the window is being closed due to a submission
+let isSubmitting = false;
+
 // Get parameters from environment variables
 const prompt = process.env[ENV_PROMPT] || "Test";
 // Title is now fixed to "User Feedback"
@@ -85,8 +88,8 @@ function createWindow() {
   // Handle window close
   mainWindow.on("close", async (event) => {
     // Check if the window is being closed by the user (not by our code)
-    // We can detect this by checking if the window is still defined
-    if (mainWindow && !mainWindow.isDestroyed()) {
+    // We can detect this by checking if the window is still defined and not submitting
+    if (mainWindow && !mainWindow.isDestroyed() && !isSubmitting) {
       try {
         // Write a cancelled status to the feedback file
         await writeFeedbackToFile(feedbackFilePath, "", true);
@@ -99,6 +102,8 @@ function createWindow() {
 
   mainWindow.on("closed", () => {
     mainWindow = null;
+    // Reset the submitting flag
+    isSubmitting = false;
   });
 }
 
@@ -117,22 +122,31 @@ ipcMain.handle("get-prompt", () => {
   return prompt;
 });
 
-ipcMain.handle("submit-feedback", async (_event, feedback: string) => {
-  try {
-    // Write feedback to file
-    await writeFeedbackToFile(feedbackFilePath, feedback);
+ipcMain.handle(
+  "submit-feedback",
+  async (_event, feedback: string, images?: any[]) => {
+    try {
+      // Set the submitting flag to true
+      isSubmitting = true;
 
-    // Close the window
-    if (mainWindow) {
-      mainWindow.close();
+      // Write feedback to file
+      await writeFeedbackToFile(feedbackFilePath, feedback, false, images);
+
+      // Close the window
+      if (mainWindow) {
+        mainWindow.close();
+      }
+
+      return { success: true };
+    } catch (error: any) {
+      // Reset the submitting flag on error
+      isSubmitting = false;
+
+      console.error("Failed to write feedback:", error);
+      return { success: false, error: error.message };
     }
-
-    return { success: true };
-  } catch (error: any) {
-    console.error("Failed to write feedback:", error);
-    return { success: false, error: error.message };
   }
-});
+);
 
 // Error handling
 process.on("uncaughtException", (error) => {

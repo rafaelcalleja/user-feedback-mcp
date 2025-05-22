@@ -26,14 +26,24 @@ export function registerUserFeedbackTool(server: McpServer): void {
 
       const result = await getUserFeedback(userFeedbackParams);
 
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(result),
-          },
-        ],
-      };
+      // Create response content
+      const content: any[] = [
+        {
+          type: "text",
+          text: JSON.stringify(result),
+        },
+      ];
+
+      // Add images to the response if they exist
+      if (result.images && result.images.length > 0) {
+        // Add a note about images
+        content.push({
+          type: "text",
+          text: `\n\nThe user included ${result.images.length} image(s) in their feedback.`,
+        });
+      }
+
+      return { content };
     }
   );
 
@@ -53,14 +63,24 @@ export function registerUserFeedbackTool(server: McpServer): void {
 
       const result = await getUserFeedback(userFeedbackParams);
 
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(result),
-          },
-        ],
-      };
+      // Create response content
+      const content: any[] = [
+        {
+          type: "text",
+          text: JSON.stringify(result),
+        },
+      ];
+
+      // Add images to the response if they exist
+      if (result.images && result.images.length > 0) {
+        // Add a note about images
+        content.push({
+          type: "text",
+          text: `\n\nThe user included ${result.images.length} image(s) in their feedback.`,
+        });
+      }
+
+      return { content };
     }
   );
 
@@ -83,14 +103,24 @@ export function registerUserFeedbackTool(server: McpServer): void {
 
         const result = await getUserFeedback(userFeedbackParams);
 
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify(result),
-            },
-          ],
-        };
+        // Create response content
+        const content: any[] = [
+          {
+            type: "text",
+            text: JSON.stringify(result),
+          },
+        ];
+
+        // Add images to the response if they exist
+        if (result.images && result.images.length > 0) {
+          // Add a note about images
+          content.push({
+            type: "text",
+            text: `\n\nThe user included ${result.images.length} image(s) in their feedback.`,
+          });
+        }
+
+        return { content };
       }
     );
   }
@@ -112,14 +142,24 @@ export function registerUserFeedbackTool(server: McpServer): void {
 
         const result = await getUserFeedback(userFeedbackParams);
 
-        return {
-          content: [
-            {
-              type: "text",
-              text: JSON.stringify(result),
-            },
-          ],
-        };
+        // Create response content
+        const content: any[] = [
+          {
+            type: "text",
+            text: JSON.stringify(result),
+          },
+        ];
+
+        // Add images to the response if they exist
+        if (result.images && result.images.length > 0) {
+          // Add a note about images
+          content.push({
+            type: "text",
+            text: `\n\nThe user included ${result.images.length} image(s) in their feedback.`,
+          });
+        }
+
+        return { content };
       }
     );
   }
