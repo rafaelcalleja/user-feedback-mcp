@@ -20,14 +20,19 @@ export function generateFeedbackFilePath(): string {
 
 /**
  * Writes feedback data to a file
+ * @param filePath Path to the feedback file
+ * @param feedback Feedback text
+ * @param cancelled Whether the feedback was cancelled by the user
  */
 export async function writeFeedbackToFile(
   filePath: string,
-  feedback: string
+  feedback: string,
+  cancelled: boolean = false
 ): Promise<void> {
   const data: FeedbackFile = {
     feedback,
     timestamp: Date.now(),
+    cancelled: cancelled,
   };
 
   await fs.writeJson(filePath, data, { spaces: 2 });
@@ -41,6 +46,15 @@ export async function readFeedbackFromFile(
 ): Promise<UserFeedbackResponse> {
   try {
     const data = (await fs.readJson(filePath)) as FeedbackFile;
+
+    // Check if the feedback was cancelled by the user
+    if (data.cancelled) {
+      return {
+        feedback: "",
+        status: FeedbackStatus.CANCELLED,
+        error: "User cancelled feedback by closing the window",
+      };
+    }
 
     return {
       feedback: data.feedback,

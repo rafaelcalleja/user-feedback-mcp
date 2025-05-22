@@ -83,6 +83,20 @@ function createWindow() {
   // The window will only close when the user submits feedback or manually closes the window
 
   // Handle window close
+  mainWindow.on("close", async (event) => {
+    // Check if the window is being closed by the user (not by our code)
+    // We can detect this by checking if the window is still defined
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      try {
+        // Write a cancelled status to the feedback file
+        await writeFeedbackToFile(feedbackFilePath, "", true);
+        console.log("User cancelled feedback by closing the window");
+      } catch (error) {
+        console.error("Failed to write cancelled status:", error);
+      }
+    }
+  });
+
   mainWindow.on("closed", () => {
     mainWindow = null;
   });

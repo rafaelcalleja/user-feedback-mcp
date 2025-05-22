@@ -51,4 +51,9 @@ export interface FeedbackFile {
    * Timestamp when the feedback was submitted
    */
   timestamp: number;
+
+  /**
+   * Whether the feedback was cancelled by the user
+   */
+  cancelled?: boolean;
 }
