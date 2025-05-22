@@ -4,3 +4,5 @@ made for unlimited vibes
 # Start the MCP server
 npx -y user-feedback-mcp@latest start
 ```
+
+- Added image support. Just paste it from clipboard.
