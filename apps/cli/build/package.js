@@ -30,12 +30,6 @@ const publishPackageJson = {
   ],
   dependencies: {
     "electron": packageJson.devDependencies["electron"],
-    "@modelcontextprotocol/sdk": packageJson.dependencies["@modelcontextprotocol/sdk"],
-    "commander": packageJson.dependencies["commander"],
-    "fs-extra": packageJson.dependencies["fs-extra"],
-    "winston": packageJson.dependencies["winston"],
-    "zod": packageJson.dependencies["zod"],
-    "electron-store": packageJson.dependencies["electron-store"],
   },
   keywords: [
     'mcp',

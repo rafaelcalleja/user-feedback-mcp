@@ -38,12 +38,6 @@ esbuild.buildSync({
   banner: { js: '#!/usr/bin/env node' },
   external: [
     'electron', // Don't bundle electron as it's a native dependency
-    '@modelcontextprotocol/sdk', // MCP SDK
-    'commander', // Command-line parsing
-    'fs-extra', // File system operations
-    'winston', // Logging
-    'zod', // Schema validation
-    'electron-store', // Electron storage
   ],
   minify: false,
   sourcemap: false,
@@ -63,11 +57,7 @@ esbuild.buildSync({
   platform: 'node',
   target: 'node16',
   outfile: './dist/electron/main.js',
-  external: [
-    'electron', // Don't bundle electron
-    'fs-extra', // File system operations
-    'electron-store', // Electron storage
-  ], // Don't bundle these dependencies
+  external: ['electron'], // Don't bundle electron
   minify: true,
   sourcemap: false,
   define: {
@@ -86,11 +76,7 @@ esbuild.buildSync({
   platform: 'node',
   target: 'node16',
   outfile: './dist/electron/preload.js',
-  external: [
-    'electron', // Don't bundle electron
-    'fs-extra', // File system operations
-    'electron-store', // Electron storage
-  ], // Don't bundle these dependencies
+  external: ['electron'], // Don't bundle electron
   minify: true,
   sourcemap: false,
   define: {
