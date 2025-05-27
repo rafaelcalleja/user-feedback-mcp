@@ -138,6 +138,7 @@ async function launchElectronGui(
     }
 
     // Spawn the Electron process
+    delete env.ELECTRON_RUN_AS_NODE;
     const electronProcess = spawn(electronPath, [electronGuiPath], { env });
 
     // Handle process exit
