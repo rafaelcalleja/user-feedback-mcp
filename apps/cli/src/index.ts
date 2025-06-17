@@ -16,7 +16,7 @@ const program = new Command();
 
 // Set up basic information
 program
-  .name("user-feedback-mcp")
+  .name("get-user-feedback")
   .description("Local User Feedback Interface for MCP Tool")
   .version(version)
   .option("-d, --debug", "Enable debug logging")
@@ -53,7 +53,7 @@ async function main() {
     // Start the MCP server
     safeConsole.log("Starting MCP server...");
     // Import dynamically to avoid TypeScript issues
-    const { startMCPServer } = await import("@user-feedback-mcp/mcp-server");
+    const { startMCPServer } = await import("@get-user-feedback/mcp-server");
     await startMCPServer();
   } catch (error) {
     safeConsole.error("Failed to start MCP server:", error);

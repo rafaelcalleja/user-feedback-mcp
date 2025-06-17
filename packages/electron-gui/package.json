@@ -1,5 +1,5 @@
 {
-  "name": "@user-feedback-mcp/electron-gui",
+  "name": "@get-user-feedback/electron-gui",
   "version": "0.1.0",
   "description": "Electron GUI for user feedback collection",
   "author": "User Feedback MCP Team",
@@ -12,7 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@user-feedback-mcp/shared": "*",
+    "@get-user-feedback/shared": "*",
     "electron-store": "^8.1.0",
     "fs-extra": "^11.1.1"
   },

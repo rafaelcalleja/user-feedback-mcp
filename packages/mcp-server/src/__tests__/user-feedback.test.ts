@@ -1,8 +1,8 @@
-import { FeedbackStatus } from "@user-feedback-mcp/shared";
+import { FeedbackStatus } from "@get-user-feedback/shared";
 
 // Mock the entire user-feedback handler
 jest.mock("../handlers/user-feedback", () => {
-  const FeedbackStatus = jest.requireActual("@user-feedback-mcp/shared").FeedbackStatus;
+  const FeedbackStatus = jest.requireActual("@get-user-feedback/shared").FeedbackStatus;
   
   // Create a mock implementation of getUserFeedback
   const getUserFeedback = jest.fn().mockImplementation(params => {

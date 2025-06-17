@@ -9,12 +9,12 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@user-feedback-mcp/shared": ["packages/shared/src"],
-      "@user-feedback-mcp/shared/*": ["packages/shared/src/*"],
-      "@user-feedback-mcp/mcp-server": ["packages/mcp-server/src"],
-      "@user-feedback-mcp/mcp-server/*": ["packages/mcp-server/src/*"],
-      "@user-feedback-mcp/electron-gui": ["packages/electron-gui/src"],
-      "@user-feedback-mcp/electron-gui/*": ["packages/electron-gui/src/*"]
+      "@get-user-feedback/shared": ["packages/shared/src"],
+      "@get-user-feedback/shared/*": ["packages/shared/src/*"],
+      "@get-user-feedback/mcp-server": ["packages/mcp-server/src"],
+      "@get-user-feedback/mcp-server/*": ["packages/mcp-server/src/*"],
+      "@get-user-feedback/electron-gui": ["packages/electron-gui/src"],
+      "@get-user-feedback/electron-gui/*": ["packages/electron-gui/src/*"]
     }
   }
 }

@@ -12,7 +12,7 @@ import {
   cleanupFeedbackFile,
   createErrorResponse,
   ensureTempDir,
-} from "@user-feedback-mcp/shared";
+} from "@get-user-feedback/shared";
 import logger from "../utils/logger";
 import { existsSync } from "fs";
 

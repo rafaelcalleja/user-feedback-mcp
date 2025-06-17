@@ -5,7 +5,7 @@ import {
   ENV_ENABLE_KNOWLEDGE_DB,
   ENV_ENABLE_UI_TESTER,
   UserFeedbackRequest,
-} from "@user-feedback-mcp/shared";
+} from "@get-user-feedback/shared";
 
 /**
  * Registers the get_user_feedback tool with the MCP server

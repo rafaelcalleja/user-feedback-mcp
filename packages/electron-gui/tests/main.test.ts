@@ -88,7 +88,7 @@ describe("Electron Main Process", () => {
 
   it("should handle submit-feedback IPC message", async () => {
     // Mock the shared module's writeFeedbackToFile function
-    jest.mock("@user-feedback-mcp/shared", () => ({
+    jest.mock("@get-user-feedback/shared", () => ({
       ENV_PROMPT: "USER_FEEDBACK_PROMPT",
       ENV_TITLE: "USER_FEEDBACK_TITLE",
       ENV_TIMEOUT: "USER_FEEDBACK_TIMEOUT",

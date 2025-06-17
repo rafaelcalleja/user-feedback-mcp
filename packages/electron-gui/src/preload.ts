@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { ImageData } from "@user-feedback-mcp/shared";
+import { ImageData } from "@get-user-feedback/shared";
 
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object

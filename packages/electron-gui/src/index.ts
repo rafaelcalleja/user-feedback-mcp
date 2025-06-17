@@ -8,7 +8,7 @@ export {
   DEFAULT_WINDOW_WIDTH,
   DEFAULT_WINDOW_HEIGHT,
   writeFeedbackToFile,
-} from "@user-feedback-mcp/shared";
+} from "@get-user-feedback/shared";
 
 // Export the path to the main.js file
 export const MAIN_PATH = __filename;

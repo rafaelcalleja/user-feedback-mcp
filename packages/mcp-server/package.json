@@ -1,5 +1,5 @@
 {
-  "name": "@user-feedback-mcp/mcp-server",
+  "name": "@get-user-feedback/mcp-server",
   "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.11.2",
-    "@user-feedback-mcp/shared": "*",
+    "@get-user-feedback/shared": "*",
     "fs-extra": "^11.1.1",
     "winston": "^3.17.0",
     "zod": "^3.24.4"

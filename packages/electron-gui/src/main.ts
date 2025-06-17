@@ -9,7 +9,7 @@ import {
   DEFAULT_WINDOW_WIDTH,
   DEFAULT_WINDOW_HEIGHT,
   writeFeedbackToFile,
-} from "@user-feedback-mcp/shared";
+} from "@get-user-feedback/shared";
 
 // Keep a global reference of the window object
 let mainWindow: BrowserWindow | null = null;
@@ -22,7 +22,7 @@ const prompt = process.env[ENV_PROMPT] || "Test";
 // Title is now fixed to "User Feedback"
 const feedbackFilePath =
   process.env[ENV_FEEDBACK_FILE] ||
-  "/Users/jan/projects/private/user-feedback-mcp/apps/cli/pack/feedback.json";
+  "/Users/jan/projects/private/get-user-feedback/apps/cli/pack/feedback.json";
 
 // Validate required parameters
 if (!prompt) {

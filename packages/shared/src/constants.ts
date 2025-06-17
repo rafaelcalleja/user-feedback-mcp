@@ -19,7 +19,7 @@ export const DEFAULT_WINDOW_HEIGHT = 400;
 /**
  * Base directory for temporary files
  */
-export const TEMP_DIR = path.join(os.tmpdir(), "user-feedback-mcp");
+export const TEMP_DIR = path.join(os.tmpdir(), "get-user-feedback");
 
 /**
  * File name for the feedback file

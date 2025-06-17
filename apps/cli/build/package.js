@@ -21,7 +21,7 @@ const publishPackageJson = {
   version: packageJson.version,
   description: packageJson.description,
   bin: {
-    "user-feedback-mcp": "./cli.js"
+    "get-user-feedback": "./cli.js"
   },
   main: './cli.js',
   files: [
@@ -39,7 +39,7 @@ const publishPackageJson = {
   license: 'MIT',
   repository: {
     type: 'git',
-    url: 'https://github.com/nowaythatworked/user-feedback-mcp'
+    url: 'https://github.com/rafaelcalleja/get-user-feedback'
   }
 };
 

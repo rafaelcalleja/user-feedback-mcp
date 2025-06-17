@@ -1,9 +1,9 @@
 {
-  "name": "user-feedback-mcp",
+  "name": "get-user-feedback",
   "version": "0.2.0",
   "description": "mcp server to request user feedback via an UI instead of normal chat",
   "bin": {
-    "user-feedback-mcp": "./dist/cli.js"
+    "get-user-feedback": "./dist/cli.js"
   },
   "scripts": {
     "build": "node build/build.js",

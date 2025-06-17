@@ -1,5 +1,5 @@
 {
-  "name": "user-feedback-mcp",
+  "name": "get-user-feedback",
   "version": "0.1.0",
   "private": true,
   "workspaces": [
