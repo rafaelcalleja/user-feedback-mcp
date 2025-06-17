@@ -43,6 +43,11 @@ export async function getUserFeedback(
       ...process.env,
       [ENV_PROMPT]: params.prompt,
       [ENV_FEEDBACK_FILE]: feedbackFilePath,
+      // Ensure X11 environment variables are preserved
+      DISPLAY: process.env.DISPLAY || ':0',
+      XDG_CURRENT_DESKTOP: process.env.XDG_CURRENT_DESKTOP,
+      XDG_SESSION_TYPE: process.env.XDG_SESSION_TYPE,
+      WAYLAND_DISPLAY: process.env.WAYLAND_DISPLAY,
     };
 
     logger.debug("Launching Electron GUI", {
@@ -138,35 +143,99 @@ async function launchElectronGui(
     }
 
     // Spawn the Electron process
-    const electronProcess = spawn(electronPath, [electronGuiPath], { env });
+    delete env.ELECTRON_RUN_AS_NODE;
+    
+    // Add Electron flags for better X11 compatibility
+    const electronArgs = [
+      electronGuiPath,
+      '--no-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu-sandbox'
+    ];
+    
+    const electronProcess = spawn(electronPath, electronArgs, { env });
+
+    // Capture stdout and stderr
+    let stdoutData = '';
+    let stderrData = '';
 
     // Handle process exit
-    electronProcess.on("exit", (code) => {
+    electronProcess.on("exit", (code, signal) => {
       if (code === 0) {
+        logger.debug("Electron process exited successfully", { code, signal });
         resolve({ status: FeedbackStatus.SUCCESS });
       } else {
+        const errorDetails = {
+          exitCode: code,
+          signal: signal,
+          electronPath: electronPath,
+          electronGuiPath: electronGuiPath,
+          processId: electronProcess.pid,
+          env: {
+            [ENV_PROMPT]: env[ENV_PROMPT],
+            [ENV_FEEDBACK_FILE]: env[ENV_FEEDBACK_FILE],
+          },
+          spawnArgs: electronArgs,
+          platform: process.platform,
+          arch: process.arch,
+          nodeVersion: process.version,
+          stdout: stdoutData.trim(),
+          stderr: stderrData.trim(),
+        };
+        
+        logger.error("Electron process exited with error v1", errorDetails);
+        
+        const detailedErrorMessage = `Electron process exited with code ${code}. Details: ${JSON.stringify(errorDetails, null, 2)}`;
+        
         resolve({
           status: FeedbackStatus.ERROR,
-          error: `Electron process exited with code ${code}`,
+          error: detailedErrorMessage,
         });
       }
     });
 
     // Handle process error
     electronProcess.on("error", (error) => {
+      const errorDetails = {
+        errorMessage: error.message,
+        errorName: error.name,
+        errorStack: error.stack,
+        electronPath: electronPath,
+        electronGuiPath: electronGuiPath,
+        spawnArgs: electronArgs,
+        env: {
+          [ENV_PROMPT]: env[ENV_PROMPT],
+          [ENV_FEEDBACK_FILE]: env[ENV_FEEDBACK_FILE],
+        },
+        platform: process.platform,
+        arch: process.arch,
+        nodeVersion: process.version,
+        cwd: process.cwd(),
+        stdout: stdoutData.trim(),
+        stderr: stderrData.trim(),
+      };
+      
+      logger.error("Failed to start Electron process", errorDetails);
+      
+      const detailedErrorMessage = `Failed to start Electron process: ${error.message}. Details: ${JSON.stringify(errorDetails, null, 2)}`;
+      
       resolve({
         status: FeedbackStatus.ERROR,
-        error: `Failed to start Electron process: ${error.message}`,
+        error: detailedErrorMessage,
       });
     });
 
-    // Log stdout and stderr for debugging
+    // Capture stdout and stderr data
     electronProcess.stdout.on("data", (data) => {
-      logger.debug(`Electron stdout: ${data}`);
+      const output = data.toString();
+      stdoutData += output;
+      logger.debug(`Electron stdout: ${output}`);
     });
 
     electronProcess.stderr.on("data", (data) => {
-      logger.error(`Electron stderr: ${data}`);
+      const output = data.toString();
+      stderrData += output;
+      logger.error(`Electron stderr: ${output}`);
     });
   });
 }
